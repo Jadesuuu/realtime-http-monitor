@@ -2,16 +2,22 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Response as HttpResponse } from '../monitor/entities/response.entity';
 
+/**
+ * Database Module
+ * Configures and provides SQLite database connection using TypeORM.
+ *
+ * @module DatabaseModule
+ */
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'data.db', // SQLite file location
-      entities: [HttpResponse], // ✅ Register your entities
-      synchronize: true, // ⚠️ Auto-create tables (disable in production!)
-      logging: false, // Set to true to see SQL queries in console
+      database: 'data.db',
+      entities: [HttpResponse],
+      synchronize: true,
+      logging: false,
     }),
   ],
-  exports: [TypeOrmModule], // ✅ Export so other modules can use it
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

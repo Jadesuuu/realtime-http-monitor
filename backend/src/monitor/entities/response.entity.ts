@@ -5,6 +5,13 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+/**
+ * Response Entity
+ *
+ * Database model for storing HTTP response data.
+ *
+ * @entity response
+ */
 @Entity()
 export class Response {
   @PrimaryGeneratedColumn()
