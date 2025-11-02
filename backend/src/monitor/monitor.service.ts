@@ -58,6 +58,7 @@ export class MonitorService {
         },
       };
 
+      // Start timer
       const startTime = Date.now();
 
       // Make HTTP POST request to httpbin.org/anything
@@ -67,6 +68,7 @@ export class MonitorService {
         }),
       );
 
+      // Calculate response time in milliseconds
       const responseTime = Date.now() - startTime;
 
       // Store response in database
@@ -74,24 +76,20 @@ export class MonitorService {
         requestPayload: JSON.stringify(randomPayload),
         responseData: JSON.stringify(response.data),
         statusCode: response.status,
-        responseTime: responseTime,
+        responseTime, // Add the calculated response time
       });
 
       // Broadcast to connected WebSocket clients for real-time updates
       this.monitorGateway.broadcastNewResponse(savedResponse);
-      console.log('Ping successful:', savedResponse.id);
+      console.log('Ping successful:', savedResponse.id, `(${responseTime}ms)`);
       return savedResponse;
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      const failedResponse = await this.responseRepository.save({
-        requestPayload: JSON.stringify({ error: 'Request failed' }),
-        responseData: JSON.stringify({ error: errorMessage }),
-        statusCode: 0,
-        responseTime: 0,
-      });
-
-      return failedResponse;
+      if (error instanceof Error) {
+        console.error('Ping failed:', error.message);
+      } else {
+        console.error('Ping failed: ', String(error));
+      }
+      return null;
     }
   }
 
