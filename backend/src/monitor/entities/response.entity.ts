@@ -26,6 +26,9 @@ export class Response {
   @Column()
   statusCode: number;
 
+  @Column({ default: 0 })
+  responseTime: number;
+
   @CreateDateColumn()
   timestamp: Date;
 }
