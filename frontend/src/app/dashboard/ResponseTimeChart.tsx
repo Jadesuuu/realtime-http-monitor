@@ -1,5 +1,3 @@
-// frontend/components/dashboard/ResponseTimeChart.tsx
-
 import {
   Card,
   CardContent,
@@ -7,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Response } from "@/types/api.types";
+import { ResponseTimeChartProps } from "@/types/api.types";
 import {
   LineChart,
   Line,
@@ -18,11 +16,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface ResponseTimeChartProps {
-  responses: Response[];
-}
-
 export function ResponseTimeChart({ responses }: ResponseTimeChartProps) {
+  // Get last 20 responses for the chart
   const chartData = responses
     .slice(0, 20)
     .reverse()

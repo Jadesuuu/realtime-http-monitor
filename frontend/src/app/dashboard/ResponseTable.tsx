@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -16,18 +10,14 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Response } from "@/types/api.types";
-import { Eye, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ResponseTableProps {
   responses: Response[];
-  onViewDetails: (response: Response) => void;
 }
 
-export function ResponseTable({
-  responses,
-  onViewDetails,
-}: ResponseTableProps) {
+export function ResponseTable({ responses }: ResponseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -47,11 +37,7 @@ export function ResponseTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Response History</CardTitle>
-        <CardDescription>
-          Showing {startIndex + 1} to {Math.min(endIndex, responses.length)} of{" "}
-          {responses.length} requests
-        </CardDescription>
+        <CardTitle>Response History ({responses.length})</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
@@ -62,16 +48,14 @@ export function ResponseTable({
                 <TableHead>Timestamp</TableHead>
                 <TableHead className="w-24">Status</TableHead>
                 <TableHead className="w-32">Response Time</TableHead>
-                <TableHead>Random Value</TableHead>
                 <TableHead>Origin IP</TableHead>
-                <TableHead className="w-24">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {currentResponses.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={7}
+                    colSpan={5}
                     className="text-center text-muted-foreground py-8"
                   >
                     No data yet. Waiting for first ping...
@@ -79,11 +63,10 @@ export function ResponseTable({
                 </TableRow>
               ) : (
                 currentResponses.map((response) => {
-                  const requestData = parseJSON(response.requestPayload);
                   const responseData = parseJSON(response.responseData);
 
                   return (
-                    <TableRow key={response.id} className="hover:bg-muted/50">
+                    <TableRow key={response.id}>
                       <TableCell className="font-medium">
                         {response.id}
                       </TableCell>
@@ -102,44 +85,12 @@ export function ResponseTable({
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-sm">
-                            {response.responseTime}ms
-                          </span>
-                          <div className="h-2 w-16 bg-muted rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${
-                                response.responseTime < 200
-                                  ? "bg-green-500"
-                                  : response.responseTime < 500
-                                  ? "bg-amber-500"
-                                  : "bg-red-500"
-                              }`}
-                              style={{
-                                width: `${Math.min(
-                                  (response.responseTime / 1000) * 100,
-                                  100
-                                )}%`,
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-mono text-xs">
-                        {requestData?.random?.toFixed(4) || "N/A"}
+                        <span className="font-mono text-sm">
+                          {response.responseTime}ms
+                        </span>
                       </TableCell>
                       <TableCell className="font-mono text-xs">
                         {responseData?.origin || "N/A"}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onViewDetails(response)}
-                          className="h-8 w-8 p-0"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
                       </TableCell>
                     </TableRow>
                   );
