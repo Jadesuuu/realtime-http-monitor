@@ -46,7 +46,7 @@ export class MonitorService {
    * @returns {Promise<HttpResponse | null>} Saved response or null on error
    */
   @Cron(CronExpression.EVERY_5_MINUTES)
-  async pingHttBin() {
+  async pingHttBin(): Promise<HttpResponse | null> {
     try {
       // Generate random JSON payload as per requirements
       const randomPayload = {
@@ -58,6 +58,8 @@ export class MonitorService {
         },
       };
 
+      const startTime = Date.now();
+
       // Make HTTP POST request to httpbin.org/anything
       const response = await firstValueFrom(
         this.httpService.post('https://httpbin.org/anything', randomPayload, {
@@ -65,11 +67,14 @@ export class MonitorService {
         }),
       );
 
+      const responseTime = Date.now() - startTime;
+
       // Store response in database
       const savedResponse = await this.responseRepository.save({
         requestPayload: JSON.stringify(randomPayload),
         responseData: JSON.stringify(response.data),
         statusCode: response.status,
+        responseTime: responseTime,
       });
 
       // Broadcast to connected WebSocket clients for real-time updates
@@ -77,12 +82,16 @@ export class MonitorService {
       console.log('Ping successful:', savedResponse.id);
       return savedResponse;
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Ping failed:', error.message);
-      } else {
-        console.error('Ping failed: ', String(error));
-      }
-      return null;
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      const failedResponse = await this.responseRepository.save({
+        requestPayload: JSON.stringify({ error: 'Request failed' }),
+        responseData: JSON.stringify({ error: errorMessage }),
+        statusCode: 0,
+        responseTime: 0,
+      });
+
+      return failedResponse;
     }
   }
 

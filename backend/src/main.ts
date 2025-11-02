@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 /**
- *
  * Application Bootstrap
  *
  * Initializes and configures the NestJS application.

@@ -1,42 +1,56 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import {
+  WebSocketGateway,
+  WebSocketServer,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { Logger } from '@nestjs/common';
 import { Response as HttpResponse } from './entities/response.entity';
 
 /**
  * Monitor Gateway
  *
  * WebSocket gateway for real-time client updates.
- *
- * Functionality:
- * - Establishes WebSocket connection on same port as HTTP server
- * - Broadcasts new HTTP response data to all connected clients
- * - Enables real-time dashboard updates without polling
- *
- * Technical Details:
- * - Uses Socket.io for WebSocket communication
- * - CORS configured to allow frontend connections
- * - Single broadcast channel: 'newResponse'
- *
- * @gateway WebSocket
+ * @gateway WebSocketGateway
  */
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3001'], // ✅ Add both
+    credentials: true,
   },
+  namespace: '/', // ✅ Use default namespace
+  transports: ['websocket', 'polling'], // ✅ Add both transports
 })
-export class MonitorGateway {
+export class MonitorGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
+
+  private readonly logger = new Logger(MonitorGateway.name);
+
+  /**
+   * Handle client connection
+   */
+  handleConnection(client: Socket) {
+    this.logger.log(`Client connected: ${client.id}`);
+  }
+
+  /**
+   * Handle client disconnection
+   */
+  handleDisconnect(client: Socket) {
+    this.logger.log(`Client disconnected: ${client.id}`);
+  }
 
   /**
    * Broadcast New Response
    *
    * Emits new HTTP response data to all connected WebSocket clients.
-   * Called after each successful HTTP ping.
-   *
-   * @param {HttpResponse} response - Response object to broadcast
    */
   broadcastNewResponse(response: HttpResponse): void {
     this.server.emit('newResponse', response);
+    this.logger.log(`Broadcasted response #${response.id} to all clients`);
   }
 }
