@@ -13,7 +13,6 @@ async function bootstrap() {
   // Enable CORS for frontend (Next.js on port 3000)
   app.enableCors({
     origin: ['http://localhost:3001', 'http://localhost:3000'], // Next.js default ports
-    credentials: true,
   });
 
   // Global API prefix (all routes prefixed with /api)
