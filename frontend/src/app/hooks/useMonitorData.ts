@@ -3,6 +3,9 @@ import { io } from "socket.io-client";
 import { Response } from "@/types/api.types";
 import { toast } from "sonner";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "http://localhost:3001";
+
 export function useMonitorData() {
   const [responses, setResponses] = useState<Response[]>([]);
   const [isConnected, setIsConnected] = useState(false);
@@ -12,7 +15,7 @@ export function useMonitorData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/monitor/responses");
+        const res = await fetch(`${API_URL}/api/monitor/responses`);
         const data = await res.json();
         setResponses(data);
       } catch (error) {
@@ -27,7 +30,7 @@ export function useMonitorData() {
 
   // WebSocket connection
   useEffect(() => {
-    const socket = io("http://localhost:3001");
+    const socket = io(WS_URL);
 
     socket.on("connect", () => {
       setIsConnected(true);
@@ -51,7 +54,7 @@ export function useMonitorData() {
 
   const triggerPing = async () => {
     try {
-      await fetch("http://localhost:3001/api/monitor/trigger", {
+      await fetch(`${API_URL}/api/monitor/trigger`, {
         method: "POST",
       });
 
