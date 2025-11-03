@@ -13,10 +13,30 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ResponseTableProps } from "@/types/api.types";
 
+/**
+ * The ResponseTable component displays a table of HTTP responses with pagination.
+ * Can be used in different pages with different response data
+ * Reduces DOM nodes for better performance with large datasets.
+ * Easy to add more features: sorting, filtering, column customization
+ * Ready for virtualization if data grows large.
+ * @param {ResponseTableProps} props
+ */
 export function ResponseTable({ responses }: ResponseTableProps) {
+  /**
+   * Pagination State
+   *
+   * Managed internally to keep parent component simple.
+   * Could be lifted to parent if needed for URL sync or persistence.
+   */
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  /**
+   * Pagination Calculations
+   *
+   * Computed values derived from state and props.
+   * Recalculated on every render but cheap operations.
+   */
   const totalPages = Math.ceil(responses.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

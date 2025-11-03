@@ -3,9 +3,24 @@ import { io } from "socket.io-client";
 import { Response } from "@/types/api.types";
 import { toast } from "sonner";
 
+/**
+ * Environment Configuration
+ *
+ * Uses Next.js environment variables for deployment flexibility.
+ * Fallback to localhost ensures development works without configuration.
+ */
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "http://localhost:3001";
 
+/**
+ * Custom Hook: useMonitorData
+ *
+ * Encapsulates ALL data-fetching and state management logic
+ * useState for client-side state (responses, connection status, loading)
+ * useEffect for side effects(API calls, WebSocket setup)
+ * Real-time updates via WebSocket connection established on mount
+ * updates state based on WebSocket events
+ */
 export function useMonitorData() {
   const [responses, setResponses] = useState<Response[]>([]);
   const [isConnected, setIsConnected] = useState(false);

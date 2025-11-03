@@ -76,7 +76,7 @@ export class MonitorService {
         requestPayload: JSON.stringify(randomPayload),
         responseData: JSON.stringify(response.data),
         statusCode: response.status,
-        responseTime, // Add the calculated response time
+        responseTime,
       });
 
       // Broadcast to connected WebSocket clients for real-time updates

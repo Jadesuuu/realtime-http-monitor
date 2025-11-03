@@ -7,6 +7,13 @@ import { ResponseTable } from "./dashboard/ResponseTable";
 import { ResponseTimeChart } from "./dashboard/ResponseTimeChart";
 import { useMonitorData } from "./hooks/useMonitorData";
 
+/**
+ * Dashboard Page Component
+ *
+ * Main entry point for the HTTP monitoring dashboard.
+ * Data fetching logic is isolated in custom hooks (useMonitorData)
+ * Abstraction for re-rendering optimization, only components that depend on changed data are re-rendered
+ */
 export default function Dashboard() {
   const { responses, isConnected, loading, triggerPing } = useMonitorData();
 

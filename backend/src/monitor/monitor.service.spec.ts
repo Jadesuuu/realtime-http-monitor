@@ -46,18 +46,15 @@ describe('MonitorService', () => {
   let mockGateway: MockGateway;
 
   beforeEach(async () => {
-    // Create mock repository
     mockRepository = {
       save: jest.fn(),
       find: jest.fn(),
     };
 
-    // Create mock HTTP service
     mockHttpService = {
       post: jest.fn(),
     };
 
-    // Create mock gateway
     mockGateway = {
       broadcastNewResponse: jest.fn(),
     };
@@ -93,7 +90,6 @@ describe('MonitorService', () => {
 
   describe('pingHttBin', () => {
     it('should successfully ping httpbin and save response', async () => {
-      // Arrange
       const mockAxiosResponse = createMockAxiosResponse({
         args: {},
         headers: {
@@ -119,10 +115,8 @@ describe('MonitorService', () => {
       mockHttpService.post?.mockReturnValue(of(mockAxiosResponse));
       mockRepository.save?.mockResolvedValue(mockSavedResponse);
 
-      // Act
       const result = await service.pingHttBin();
 
-      // Assert
       expect(mockHttpService.post).toHaveBeenCalledWith(
         'https://httpbin.org/anything',
         expect.objectContaining({
@@ -152,7 +146,6 @@ describe('MonitorService', () => {
     });
 
     it('should track response time correctly', async () => {
-      // Arrange
       const mockAxiosResponse = createMockAxiosResponse({ test: 'data' });
 
       const mockSavedResponse: Partial<HttpResponse> = {
@@ -163,10 +156,8 @@ describe('MonitorService', () => {
       mockHttpService.post?.mockReturnValue(of(mockAxiosResponse));
       mockRepository.save?.mockResolvedValue(mockSavedResponse as HttpResponse);
 
-      // Act
       await service.pingHttBin();
 
-      // Assert
       const saveCall = mockRepository.save?.mock
         .calls[0][0] as Partial<HttpResponse>;
       expect(saveCall.responseTime).toBeGreaterThanOrEqual(0);
@@ -190,10 +181,8 @@ describe('MonitorService', () => {
       mockHttpService.post?.mockReturnValue(of(mockAxiosResponse));
       mockRepository.save?.mockResolvedValue(mockSavedResponse as HttpResponse);
 
-      // Act
       await service.pingHttBin();
 
-      // Assert
       const httpCall = mockHttpService.post?.mock.calls[0][1] as {
         timeStamp: string;
         random: number;
@@ -229,6 +218,22 @@ describe('MonitorService', () => {
         },
         {
           id: 2,
+          requestPayload: '{}',
+          responseData: '{}',
+          statusCode: 200,
+          responseTime: 150,
+          timestamp: new Date(),
+        },
+        {
+          id: 3,
+          requestPayload: '{}',
+          responseData: '{}',
+          statusCode: 200,
+          responseTime: 150,
+          timestamp: new Date(),
+        },
+        {
+          id: 4,
           requestPayload: '{}',
           responseData: '{}',
           statusCode: 200,
