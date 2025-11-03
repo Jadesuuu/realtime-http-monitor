@@ -576,7 +576,7 @@ GitHub Actions automatically:
    - Mobile responsive improvements
 
 9. **Advanced Testing**
-
+   - Increase testing coverage of backend and frontend
    - E2E tests with Playwright
    - Load testing with k6
    - Visual regression testing
