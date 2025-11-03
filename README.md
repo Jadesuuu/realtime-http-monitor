@@ -6,12 +6,12 @@ Real-time HTTP endpoint monitoring application built with **NestJS** (backend) a
 
 ## 🚀 Features
 
-- ✅ Automated HTTP monitoring (pings every 5 minutes)
-- ✅ Real-time updates via WebSocket
-- ✅ Response time tracking
-- ✅ Historical data storage (SQLite)
-- ✅ Interactive dashboard with charts
-- ✅ Manual trigger capability
+- Automated HTTP monitoring (pings every 5 minutes)
+- Real-time updates via WebSocket
+- Response time tracking
+- Historical data storage (SQLite)
+- Interactive dashboard with charts
+- Manual trigger capability
 
 ## 🛠️ Tech Stack
 
@@ -33,7 +33,7 @@ Real-time HTTP endpoint monitoring application built with **NestJS** (backend) a
 - **Socket.io Client** - Real-time updates
 - **Recharts** - Data visualization
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -41,27 +41,25 @@ Real-time HTTP endpoint monitoring application built with **NestJS** (backend) a
 
 ### Clone Repository
 
-\`\`\`bash
+bash
 git clone https://github.com/YOUR_USERNAME/realtime-http-monitor.git
 cd realtime-http-monitor
-\`\`\`
 
 ### Install Dependencies
 
-\`\`\`bash
+bash
 
 # Install all dependencies (root, backend, frontend)
 
 npm install
 cd backend && npm install
 cd ../frontend && npm install
-\`\`\`
 
 ## 🏃 Running the Application
 
 ### Development Mode
 
-\`\`\`bash
+bash
 
 # From project root - runs both backend and frontend
 
@@ -74,7 +72,6 @@ cd backend && npm run start:dev
 # Frontend only (runs on http://localhost:3000)
 
 cd frontend && npm run dev
-\`\`\`
 
 ### Access the Application
 
@@ -86,7 +83,7 @@ cd frontend && npm run dev
 
 ### Backend Tests
 
-\`\`\`bash
+bash
 cd backend
 
 # Run all tests
@@ -100,7 +97,6 @@ npm run test:cov
 # Watch mode
 
 npm run test:watch
-\`\`\`
 
 ### Test Coverage
 
@@ -108,44 +104,13 @@ npm run test:watch
 - **MonitorController**: 100% coverage
 - **MonitorGateway**: 85%+ coverage
 
-## 📂 Project Structure
-
-\`\`\`
-http-monitor-dashboard/
-├── backend/ # NestJS backend
-│ ├── src/
-│ │ ├── monitor/
-│ │ │ ├── entities/ # Database entities
-│ │ │ ├── monitor.controller.ts
-│ │ │ ├── monitor.service.ts
-│ │ │ ├── monitor.gateway.ts
-│ │ │ └── \*.spec.ts # Unit tests
-│ │ ├── app.module.ts
-│ │ └── main.ts
-│ └── package.json
-├── frontend/ # Next.js frontend
-│ ├── app/
-│ │ ├── page.tsx # Main dashboard
-│ │ └── layout.tsx
-│ ├── components/
-│ │ └── dashboard/ # Dashboard components
-│ ├── hooks/
-│ │ └── useMonitorData.ts # Custom hooks
-│ ├── types/
-│ │ └── api.types.ts # TypeScript types
-│ └── package.json
-└── .github/
-└── workflows/
-└── ci.yml # CI/CD pipeline
-\`\`\`
-
 ## 🔄 CI/CD Pipeline
 
 GitHub Actions workflow runs on every push:
 
-- ✅ Backend tests with coverage
-- ✅ Frontend build verification
-- ✅ Code linting
+- Backend tests with coverage
+- Frontend build verification
+- Code linting
 
 ## 🌐 Deployment
 
@@ -170,11 +135,11 @@ I identified **MonitorService** as the core component for comprehensive testing 
 
 ### Test Coverage Highlights
 
-- HTTP request handling and response time tracking ✅
-- Database operations (save and retrieve) ✅
-- WebSocket broadcasting ✅
-- Error handling and edge cases ✅
-- Manual trigger functionality ✅
+- HTTP request handling and response time tracking
+- Database operations (save and retrieve)
+- WebSocket broadcasting
+- Error handling and edge cases
+- Manual trigger functionality
 
 ## 📝 API Endpoints
 
@@ -183,7 +148,7 @@ I identified **MonitorService** as the core component for comprehensive testing 
 Returns historical response data (last 100 records)
 
 **Response:**
-\`\`\`json
+json
 [
 {
 "id": 1,
@@ -194,21 +159,19 @@ Returns historical response data (last 100 records)
 "timestamp": "2025-11-02T..."
 }
 ]
-\`\`\`
 
 ### POST `/api/monitor/trigger`
 
 Manually triggers an HTTP ping
 
 **Response:**
-\`\`\`json
+json
 {
 "id": 2,
 "statusCode": 200,
 "responseTime": 180,
 "timestamp": "..."
 }
-\`\`\`
 
 ## 🔌 WebSocket Events
 
@@ -217,16 +180,15 @@ Manually triggers an HTTP ping
 Emitted when a new HTTP response is received
 
 **Payload:**
-\`\`\`json
+json
 {
 "id": 1,
 "statusCode": 200,
 "responseTime": 245,
 "timestamp": "..."
 }
-\`\`\`
 
-## 🏗️ Architecture Decisions
+## Architecture Decisions
 
 ### Component Abstraction
 
@@ -246,7 +208,7 @@ Emitted when a new HTTP response is received
 - TypeORM for type-safe database operations
 - No external database setup required
 
-## 🚧 Future Improvements
+## Future Improvements
 
 - [ ] Add authentication
 - [ ] Multiple endpoint monitoring
@@ -255,42 +217,14 @@ Emitted when a new HTTP response is received
 - [ ] Export data to CSV
 - [ ] Advanced analytics dashboard
 
-## 👤 Author
+## Author
 
 **Jade Mark Angelo Bonifacio**
 
-## 📄 License
+## License
 
 MIT
 
 ---
 
 **Built as a take-home assignment for BizScout**
-\`\`\`
-
----
-
-## **After Creating the README:**
-
-```bash
-# From project root
-git add README.md
-git commit -m "docs: add comprehensive project documentation"
-git push origin master
-```
-
----
-
-## **Your README is now:**
-
-1. ✅ In the correct location (root)
-2. ✅ Visible on GitHub homepage
-3. ✅ Contains all important info
-4. ✅ Includes badges
-5. ✅ Professional and complete
-
----
-
-**Don't forget to replace `YOUR_USERNAME` with your actual GitHub username in the badges!** 🎯
-
-**Want to deploy next, or continue with something else?** 🚀
