@@ -21,7 +21,11 @@ import { Response as HttpResponse } from './entities/response.entity';
  */
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'https://realtime-http-monitor.vercel.app',
+      /\.vercel\.app$/,
+    ],
     credentials: false,
   },
 })
