@@ -7,6 +7,6 @@ export interface Response {
   timestamp: string;
 }
 
-export interface ResponseTimeChartProps {
+export interface ResponseTableProps {
   responses: Response[];
 }

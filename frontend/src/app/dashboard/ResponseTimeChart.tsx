@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ResponseTimeChartProps } from "@/types/api.types";
+import { ResponseTableProps } from "@/types/api.types";
 import {
   LineChart,
   Line,
@@ -16,7 +16,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export function ResponseTimeChart({ responses }: ResponseTimeChartProps) {
+export function ResponseTimeChart({ responses }: ResponseTableProps) {
   // Get last 20 responses for the chart
   const chartData = responses
     .slice(0, 20)

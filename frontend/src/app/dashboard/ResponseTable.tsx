@@ -11,11 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Response } from "@/types/api.types";
-
-interface ResponseTableProps {
-  responses: Response[];
-}
+import { ResponseTableProps } from "@/types/api.types";
 
 export function ResponseTable({ responses }: ResponseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
