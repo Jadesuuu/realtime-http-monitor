@@ -16,6 +16,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+/**
+ * Response Time Chart Component
+ *
+ * Visualizes response time trends over the last 20 HTTP requests.
+ * Library Encapsulation, Recharts dependency contained in this component.
+ * ResponsiveContainer handles resize efficiently.
+ *
+ * @param {ResponseTableProps} props
+ */
 export function ResponseTimeChart({ responses }: ResponseTableProps) {
   // Get last 20 responses for the chart
   const chartData = responses
