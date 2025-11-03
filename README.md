@@ -23,7 +23,6 @@ A real-time HTTP endpoint monitoring application that pings httpbin.org every 5 
 - [Deployment](#deployment)
 - [Assumptions Made](#assumptions-made)
 - [Future Improvements](#future-improvements)
-- [License](#license)
 
 ---
 
@@ -46,7 +45,16 @@ cd realtime-http-monitor
 
 #### 2. Install Dependencies
 
+**Option A: Install all dependencies**
+
 ```bash
+# Install all dependencies (backend/frontend)
+npm run install:all
+```
+
+**Option B: Install backend and frontend separately**
+
+```
 # Install root dependencies
 npm install
 
@@ -82,7 +90,7 @@ NEXT_PUBLIC_WS_URL=http://localhost:3001
 **Option A: Run Both Simultaneously (Recommended)**
 
 ```bash
-# From project root
+# From project root, wait for both frontend and backend to fully compile
 npm run dev
 ```
 
@@ -101,20 +109,8 @@ npm run dev
 #### 5. Access the Application
 
 - **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001/api
+- **Backend API**: http://localhost:3001/api/monitor/responses
 - **WebSocket**: ws://localhost:3001
-
----
-
-## Features
-
-- **Automated Monitoring**: HTTP endpoint pinging every 5 minutes via cron job
-- **Real-time Updates**: WebSocket integration for instant data synchronization
-- **Response Tracking**: Stores request/response data with performance metrics
-- **Interactive Dashboard**: Charts and tables with pagination
-- **Manual Triggers**: On-demand ping capability for testing
-- **Comprehensive Testing**: 85%+ test coverage on core components
-- **CI/CD Pipeline**: Automated testing, linting, and deployment
 
 ---
 
@@ -122,14 +118,14 @@ npm run dev
 
 ### Backend
 
-| Technology    | Version | Purpose       | Reasoning                                                                                                                                                                   |
-| ------------- | ------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **NestJS**    | ^11.0.1 | API Framework | - Enterprise-grade architecture with built-in DI<br>- Excellent TypeScript support<br>- Built-in decorators for cron jobs and WebSockets<br>- Modular structure scales well |
-| **TypeORM**   | ^0.3.27 | ORM           | - Type-safe database operations<br>- Automatic migrations<br>- Works seamlessly with NestJS                                                                                 |
-| **SQLite**    | ^5.1.7  | Database      | - Zero-configuration setup<br>- File-based (no server needed)<br>- Perfect for MVP/demo applications<br>- Easy deployment                                                   |
-| **Socket.io** | ^4.8.1  | WebSocket     | - Reliable real-time communication<br>- Auto-reconnection handling<br>- Fallback to polling if needed<br>- Battle-tested in production                                      |
-| **Axios**     | ^1.13.1 | HTTP Client   | - Promise-based API<br>- Interceptor support<br>- Better error handling than fetch                                                                                          |
-| **Jest**      | ^30.0.0 | Testing       | - Most popular Node.js testing framework<br>- Excellent mocking capabilities<br>- Built-in coverage reports                                                                 |
+| Technology    | Version | Purpose       | Reasoning                                                                                                                                                                                                                                                                                                        |
+| ------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| **NestJS**    | ^11.0.1 | API Framework | - Enterprise-grade architecture with built-in DI<br>- Excellent TypeScript support<br>- Built-in decorators for cron jobs and WebSockets<br>- Modular structure scales well<br>- More relevant backend library for the team<br>- I used this to highlight my ability to quickly learn and adopt new technologies |
+| **TypeORM**   | ^0.3.27 | ORM           | - Type-safe database operations<br>- Automatic migrations<br>- Works seamlessly with NestJS                                                                                                                                                                                                                      |
+| **SQLite**    | ^5.1.7  | Database      | - Zero-configuration setup<br>- File-based (no server needed)<br>- Perfect for MVP/demo applications<br>- Easy deployment                                                                                                                                                                                        |
+| **Socket.io** | ^4.8.1  | WebSocket     | - Reliable real-time communication<br>- Auto-reconnection handling<br>- Fallback to polling if needed<br>- Battle-tested in production                                                                                                                                                                           |
+| **Axios**     | ^1.13.1 | HTTP Client   | - Used via `@nestjs/axios` (HttpService wrapper)<br>- Promise-based API (converted from Observable)<br>- Rich error information (response, request, message)<br>- Timeout configuration support<br>- Better structured error handling than native fetch                                                          |     |
+| **Jest**      | ^30.0.0 | Testing       | - Most popular Node.js testing framework<br>- Excellent mocking capabilities<br>- Built-in coverage reports                                                                                                                                                                                                      |
 
 ### Frontend
 
@@ -273,7 +269,7 @@ app/page.tsx (Container)
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Response Entity
 
@@ -443,7 +439,7 @@ npm run test:watch        # Watch mode
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 ### Production URLs
 
@@ -472,12 +468,6 @@ npm run test:watch        # Watch mode
    - `NEXT_PUBLIC_WS_URL`: Backend WebSocket URL
 4. Deploy (automatic on every push)
 
-**Free Tier Limits:**
-
-- 100 GB bandwidth/month
-- 100 deployments/day
-- Unlimited projects
-
 #### Backend - Render
 
 **Why Render?**
@@ -500,13 +490,6 @@ npm run test:watch        # Watch mode
    - `NODE_ENV`: production
    - `PORT`: 3001
 
-**Free Tier Limits:**
-
-- 750 hours/month (enough for 1 service running 24/7)
-- Spins down after 15 minutes of inactivity
-- 512 MB RAM
-- Shared CPU
-
 **Note**: First request after spin-down takes ~30 seconds (cold start)
 
 ### CI/CD Pipeline
@@ -525,16 +508,12 @@ GitHub Actions automatically:
 
 ## Assumptions Made
 
-1. **httpbin.org Availability**: Assumed the service is reliable and always available
-2. **5-Minute Interval**: Chose 5 minutes as a balance between data freshness and API politeness
+1. **Payload format**: Since the JSON payload format wasn't strictly defined, I built a straightforward key-value structure for it.
+2. **httpbin.org Availability**: Assumed the service is reliable and always available
 3. **Data Retention**: Storing all responses indefinitely (in production, would implement cleanup)
-4. **Single Instance**: Application designed for single-instance deployment
-5. **No Authentication**: Assumed public dashboard (would add auth for production)
-6. **SQLite Sufficient**: Assumed data volume doesn't require PostgreSQL/MySQL
-7. **Free Tier Acceptable**: Cold starts on Render are acceptable for demo purposes
-8. **Network Reliability**: Frontend assumes backend is accessible
-9. **Browser Support**: Modern browsers with WebSocket support
-10. **Time Zone**: Using ISO timestamps, letting frontend handle localization
+4. **No Authentication**: Assumed public dashboard
+5. **SQLite Sufficient**: Assumed data volume doesn't require PostgreSQL/MySQL
+6. **Free Tier Acceptable**: Cold starts on Render are acceptable for demo purposes
 
 ---
 
@@ -611,6 +590,7 @@ GitHub Actions automatically:
 **Jade Mark Angelo Bonifacio**
 
 - GitHub: [@Jadesuuu](https://github.com/Jadesuuu)
+- Email: Jmabonifacio24@gmail.com
 
 ---
 
@@ -621,5 +601,17 @@ GitHub Actions automatically:
 - NestJS and Next.js communities for excellent documentation
 
 ---
+
+## Notes
+
+- My primary focus was ensuring all deliverable requirements were met while maintaining clean, readable code. I was careful to avoid scope creep and prioritized building a solid, working foundation before considering additional functionality.
+- I leveraged AI tools as learning aids during development, which helped me grasp fundamental Nest.js concepts and Jest testing practices more effectively.
+
+## To BizScout Team
+
+Hi BizScout Team,
+Thank you for the opportunity to work on this project and demonstrate my full-stack development skills. I hope this documentation effectively communicates my thought process and technical approach. I'm happy to discuss any aspect of the implementation in more detail. Excited to hear from you!
+
+Best regards, Jade
 
 **Built with ❤️ using TypeScript, NestJS, and Next.js**
