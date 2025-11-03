@@ -251,7 +251,7 @@ describe('MonitorService', () => {
         take: 100,
       });
       expect(result).toEqual(mockResponses);
-      expect(result).toHaveLength(2);
+      expect(result).toHaveLength(4);
     });
 
     it('should limit results to 100 records', async () => {
