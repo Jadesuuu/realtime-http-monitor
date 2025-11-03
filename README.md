@@ -1,6 +1,7 @@
 # HTTP Monitor Dashboard
 
 [![CI/CD Pipeline](https://github.com/Jadesuuu/realtime-http-monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/Jadesuuu/realtime-http-monitor/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Jadesuuu/realtime-http-monitor/branch/master/graph/badge.svg)](https://codecov.io/gh/Jadesuuu/realtime-http-monitor)
 
 Real-time HTTP endpoint monitoring application built with **NestJS** (backend) and **Next.js** (frontend).
 
