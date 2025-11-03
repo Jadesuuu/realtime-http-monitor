@@ -39,8 +39,9 @@ jobs:
           cat coverage/coverage-summary.json || echo "Coverage report not found"
 
       - name: Upload backend coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./backend/coverage/lcov.info
           flags: backend
           name: backend-coverage
@@ -94,8 +95,9 @@ jobs:
 
       - name: Upload frontend coverage to Codecov
         if: hashFiles('frontend/coverage/lcov.info') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./frontend/coverage/lcov.info
           flags: frontend
           name: frontend-coverage
@@ -152,10 +154,10 @@ jobs:
         run: |
           cd frontend
           if [ ! -d ".next" ]; then
-            echo "❌ Build failed - .next directory not found"
+            echo "Build failed - .next directory not found"
             exit 1
           fi
-          echo "✅ Build successful"
+          echo "Build successful"
 
   ci-summary:
     name: CI Summary
@@ -167,16 +169,16 @@ jobs:
       - name: Check CI Results
         run: |
           echo "=== CI Pipeline Summary ==="
-          echo "✅ Backend Tests: ${{ needs.backend-test.result }}"
-          echo "✅ Frontend Tests: ${{ needs.frontend-test.result }}"
-          echo "✅ Linting: ${{ needs.lint.result }}"
-          echo "✅ Build: ${{ needs.build.result }}"
+          echo "Backend Tests: ${{ needs.backend-test.result }}"
+          echo "Frontend Tests: ${{ needs.frontend-test.result }}"
+          echo "Linting: ${{ needs.lint.result }}"
+          echo "Build: ${{ needs.build.result }}"
 
           if [[ "${{ needs.backend-test.result }}" == "failure" ]] || \
              [[ "${{ needs.lint.result }}" == "failure" ]] || \
              [[ "${{ needs.build.result }}" == "failure" ]]; then
-            echo " CI Pipeline Failed"
+            echo "CI Pipeline Failed"
             exit 1
           fi
 
-          echo "✅ CI Pipeline Passed"
+          echo "CI Pipeline Passed"
