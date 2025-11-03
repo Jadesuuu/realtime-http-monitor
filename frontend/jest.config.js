@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+/* eslint-disable @typescript-eslint/no-require-imports */
 const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({
@@ -13,28 +13,17 @@ const customJestConfig = {
     "^@/(.*)$": "<rootDir>/$1",
   },
 
-  transform: {
-    "^.+\\.(ts|tsx)$": [
-      "@swc/jest",
-      {
-        jsc: {
-          parser: {
-            syntax: "typescript",
-            tsx: true,
-          },
-          transform: {
-            react: {
-              runtime: "automatic",
-            },
-          },
-        },
-      },
-    ],
-  },
+  collectCoverageFrom: [
+    "components/**/*.{ts,tsx}",
+    "app/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}",
+    "!**/*.d.ts",
+    "!**/node_modules/**",
+    "!**/.next/**",
+  ],
 
-  transformIgnorePatterns: ["node_modules/(?!(recharts)/)"],
-
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov", "json-summary"],
 };
 
 module.exports = createJestConfig(customJestConfig);

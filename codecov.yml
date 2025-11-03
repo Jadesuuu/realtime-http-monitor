@@ -1,0 +1,26 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+
+ignore:
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/jest.config.js"
+  - "**/jest.setup.js"
+  - "**/*.d.ts"
+  - "**/node_modules/**"
+  - "**/.next/**"
+  - "**/dist/**"
+  - "**/coverage/**"
